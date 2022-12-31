@@ -5,7 +5,7 @@ Dasash is a survey administration website that lets user to create
 - Survey 
 - Quiz
 - Poll
-## CMS Screenshots
+## System Screenshots
 
 ![App Screenshot](https://i.ibb.co/9cgX8yJ/image.png/468x300?text=App+Screenshot+Here)
 
