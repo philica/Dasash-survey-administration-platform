@@ -1,0 +1,1 @@
+function initPopupMenus(n){var t=document.querySelectorAll("."+n);t=Array.prototype.slice.call(t,0);t.forEach(function(t){initPopupMenu(n,t)})}function initPopupMenu(n,t){function r(){t.className=n+" popup-menu popup-menu--expanded"}function u(){t.className=n+" popup-menu popup-menu--collapsed"}var i=t.querySelector(".popup-menu__item--active");i.onmouseenter=r;t.onmouseleave=u}

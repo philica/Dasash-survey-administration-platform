@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Preview survey,quiz,poll</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link href="https://unpkg.com/survey-jquery/defaultV2.min.css" type="text/css" rel="stylesheet">
+
+    <script type="text/javascript" src="https://unpkg.com/survey-jquery/survey.jquery.min.js"></script>
+    <!-- <script type="text/javascript" src="./surveyjs_files/previewQuiz.js"></script> -->
+</head>
+
+<body>
+    <div id="surveyContainer"></div>
+    <!-- quiz rendering js -->
+
+    <!-- firebase data fetching js -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        //web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxiAUqD12QssjVB8LAAdtDBgINDtDSwZk",
+            authDomain: "dasash-ee343.firebaseapp.com",
+            projectId: "dasash-ee343",
+            storageBucket: "dasash-ee343.appspot.com",
+            messagingSenderId: "177392192719",
+            appId: "1:177392192719:web:441ccb9ebaa0799625bbba"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        import { getDatabase, ref, set, get, child, update, remove }
+            from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+
+        const db = getDatabase();
+        let surveyJson = {}
+        function SelectData() {
+            console.log("inside logger database function")
+            const dbref = ref(db)
+            // link to survey 
+            let params = new URLSearchParams(document.location.search);
+            let Surveyname = params.get("name");
+
+            get(child(dbref, "Survey/" + Surveyname))
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+
+                        console.log("survey loaded correctly")
+                        console.log(snapshot.val())
+
+                        //render after bringing the data 
+                        Survey.StylesManager.applyTheme("defaultV2");
+
+                        const survey = new Survey.Model(snapshot.val());
+                        // render survey 
+                        $(function () {
+                            $("#surveyContainer").Survey({ model: survey });
+                        });
+
+
+
+                        //send survey result 
+                        function sendResult(sender) {
+                            const results = JSON.stringify(sender.data);
+                            set(ref(db, "SurveyResult/" + Surveyname), results)
+                                .then(() => {
+                                    alert("Survey result sent succesfully")
+                                    localStorage.clear();
+                                })
+                                .catch((error) => {
+                                    alert("unsuccesfull storing : " + error)
+                                })
+
+                        }
+
+                        survey.onComplete.add(sendResult);
+
+                    }
+                    else {
+                        alert("No data found")
+                    }
+                })
+                .catch((error) => {
+                    alert("unsuccessful , error : " + error)
+                })
+        }
+
+        //read data from database and assign it to a json 
+        SelectData()
+
+
+
+
+    </script>
+</body>
+
+</html>

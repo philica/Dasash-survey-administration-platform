@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1 id="name"></h1>
+    <script>
+       let name = document.getElementById("name")
+        let params = new URLSearchParams(document.location.search);
+        let docname = params.get("name"); 
+        console.log(docname)
+        name.textContent = docname
+    </script>
+
+    <script>
+         // function deleteSurvey() {
+    //     alert("delete touched")
+    //     console.log("delete button touched")
+    //     remove(ref(dasashDb, "Survey/final"))
+    //       .then(() => {
+    //         alert("data deleted succesfully");
+    //         location.reload()
+    //       })
+    //       .catch((error) => {
+    //         alert("unsuccesfull storing : " + error)
+    //       })
+    //   }
+
+    </script>
+</body>
+
+</html>
